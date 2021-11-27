@@ -28,19 +28,19 @@
             <div class="col-md-4">
                 <div class="deposit status">
                     <h5>Deposit</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentDeposit">00</span> </h2>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="withdraw status">
                     <h5>Withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="withdrawText">00</span> </h2>
                 </div>
             </div>
             <div class="col-md-4">
                <div class="balance status">
                 <h5>Balance</h5>
-                <h2>$1240</h2>
+                <h2>$ <span id="currentBalance">1240</span> </h2>
                </div>
             </div>
         </div>
@@ -48,17 +48,17 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Deposit</h4>
-                    <input type="text" class="form-control" placeholder="$ Amount you want to Deposit">
+                    <input id="depositInput" type="text" class="form-control" placeholder="$ Amount you want to Deposit">
                     <br>
-                    <button class="btn btn-success">Deposit</button>
+                    <button id="addDeposit" class="btn btn-success">Deposit</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Withdraw</h4>
-                    <input type="text" class="form-control" placeholder="$ Amount you want to Withdraw">
+                    <input id="withdrawInput" type="text" class="form-control" placeholder="$ Amount you want to Withdraw">
                     <br>
-                    <button class="btn btn-success">Withdraw</button>
+                    <button id="withdrawBtn" class="btn btn-success">Withdraw</button>
                 </div>
             </div>
         </div>
@@ -66,6 +66,7 @@
     
 
     <script>
+        //login button event handler
         const loginBtn = document.getElementById('login');
         loginBtn.addEventListener('click', function(){
             const loginArea = document.getElementById('login-area');
@@ -73,6 +74,42 @@
             const transactionArea = document.getElementById('transaction-area');
             transactionArea.style.display = 'block'
         })
+
+        //deposit button event handler
+        const depositBtn = document.getElementById('addDeposit');
+        depositBtn.addEventListener('click', function(){
+           const depositNumber = getInputNumber('depositInput')
+            
+            updateSpanText('currentDeposit', depositNumber)
+            updateSpanText('currentBalance', depositNumber)
+            document.getElementById('depositAmount').value = ''  
+        })
+
+        function getInputNumber(id){
+            const inputAmount = document.getElementById(id).value
+            const inputNumber = parseFloat(inputAmount);
+            return inputNumber
+        }
+
+        function updateSpanText(id, addedNumber){
+            const current = document.getElementById(id).innerText;
+            const currentNumber =  parseFloat(current);
+            const total = addedNumber+currentNumber;
+            document.getElementById(id).innerText = total;
+        }
+
+        //withdraw button event handler
+
+        const withdrawBtn = document.getElementById('withdrawBtn');
+        withdrawBtn.addEventListener('click', function(){
+            const withdrawInputNumber = getInputNumber('withdrawInput')
+            
+            updateSpanText('withdrawText', withdrawInputNumber)
+            updateSpanText('currentBalance', -1 * withdrawInputNumber)
+            document.getElementById('withdrawInput').value = '';
+
+        })
+
     </script>
 </body>
 </html>
